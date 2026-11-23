@@ -1,7 +1,7 @@
 Option Explicit
 
 ' Creates a Windows Desktop shortcut with the custom frosted-glass app_icon.ico.
-' Pure ASCII contents to avoid GBK/UTF-8 encoding issues in Windows Script Host.
+' 100% pure ASCII script & target filename so it works on all Windows locales (GBK/UTF-8).
 
 Dim fso, shell, appDir, vbsTarget, iconPath, desktopDir, lnkPath, sc
 
@@ -9,7 +9,7 @@ Set fso   = CreateObject("Scripting.FileSystemObject")
 Set shell = CreateObject("WScript.Shell")
 
 appDir     = fso.GetParentFolderName(WScript.ScriptFullName)
-vbsTarget  = fso.BuildPath(appDir, "启动科研绘图排版工具_Windows.vbs")
+vbsTarget  = fso.BuildPath(appDir, "Launch_Figure_Studio_Windows.vbs")
 iconPath   = fso.BuildPath(appDir, "assets\app_icon.ico")
 desktopDir = shell.SpecialFolders("Desktop")
 lnkPath    = fso.BuildPath(desktopDir, "Figure Studio.lnk")

@@ -58,8 +58,8 @@
 ### 方式一：直接双击启动（推荐）
 - **macOS**：直接双击项目目录下的 **`科研绘图排版工具.app`**（可拖到桌面或程序坞随时打开）。
 - **Windows**：
-  - 直接双击 **`启动科研绘图排版工具_Windows.vbs`**；
-  - 或先双击一次 **`创建Windows桌面快捷方式.vbs`**，在桌面生成带磨砂玻璃图标的 **`Figure Studio`** 快捷方式后直接双击使用。
+  - 直接双击 **`Launch_Figure_Studio_Windows.vbs`**；
+  - 或先双击一次 **`Create_Windows_Desktop_Shortcut.vbs`**，在桌面生成带磨砂玻璃图标的 **`Figure Studio`** 快捷方式后直接双击使用。
 
 ### 方式二：在 MATLAB 命令行启动
 将 MATLAB 当前目录切换到本项目文件夹，运行：
@@ -76,8 +76,8 @@ Figure-Studio/
 ├── start_app.m                      # MATLAB 命令行一键启动脚本
 ├── FigureLayoutApp.m                # 主 GUI 应用 (uifigure，Apple 磨砂玻璃风格)
 ├── 科研绘图排版工具.app/             # macOS 独立无桌面双击启动器（含 AppIcon.icns）
-├── 启动科研绘图排版工具_Windows.vbs  # Windows 静默无黑框双击启动脚本
-├── 创建Windows桌面快捷方式.vbs       # Windows 一键创建带图标桌面快捷方式
+├── Launch_Figure_Studio_Windows.vbs # Windows 静默无黑框双击启动脚本
+├── Create_Windows_Desktop_Shortcut.vbs # Windows 一键创建带图标桌面快捷方式
 ├── assets/
 │   ├── app_icon.png                 # 窗口图标 (256x256 透明圆角)
 │   ├── app_icon_1024.png            # 高清母版图标 (1024x1024)
