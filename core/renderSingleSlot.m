@@ -28,7 +28,19 @@ function imgRgb = renderSingleSlot(filePath, widthCm, heightCm, dpi, styleCfg)
         cleanupTmp = onCleanup(@() safeDelete(tmpPng)); %#ok<NASGU>
 
         % 使用 print 严格按照 PaperPosition (cm) 与 -rDPI 输出 1:1 物理尺寸位图
-        print(fig, tmpPng, '-dpng', sprintf('-r%d', round(dpi)));
+        % 对纯 2D 曲线/双 Y 轴图强制使用 -painters 渲染器，彻底避免 Windows OpenGL 离屏渲染时
+        % 数据超出 XLim 范围导致曲线穿出坐标轴边界的 Bug（3D 曲面/图像仍保留默认渲染器）
+        has3DOrRaster = ~isempty(findall(fig, 'Type', 'Surface')) || ...
+                        ~isempty(findall(fig, 'Type', 'Image'));
+        if ~has3DOrRaster
+            try
+                print(fig, tmpPng, '-dpng', '-painters', sprintf('-r%d', round(dpi)));
+            catch
+                print(fig, tmpPng, '-dpng', sprintf('-r%d', round(dpi)));
+            end
+        else
+            print(fig, tmpPng, '-dpng', sprintf('-r%d', round(dpi)));
+        end
 
         rawImg = imread(tmpPng);
         rawImg = ensureRgbUint8(rawImg);

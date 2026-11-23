@@ -334,7 +334,17 @@ function exportEditedBitmap(fig, wCm, hCm, zoomScale, dpi, ext)
     tmpPng = [tempname '.png'];
     cleanupTmp = onCleanup(@() safeDelete(tmpPng)); %#ok<NASGU>
     printDpi = max(72, round(dpi / zoomScale));
-    print(fig, tmpPng, '-dpng', sprintf('-r%d', printDpi));
+    has3DOrRaster = ~isempty(findall(fig, 'Type', 'Surface')) || ...
+                    ~isempty(findall(fig, 'Type', 'Image'));
+    if ~has3DOrRaster
+        try
+            print(fig, tmpPng, '-dpng', '-painters', sprintf('-r%d', printDpi));
+        catch
+            print(fig, tmpPng, '-dpng', sprintf('-r%d', printDpi));
+        end
+    else
+        print(fig, tmpPng, '-dpng', sprintf('-r%d', printDpi));
+    end
     img = imread(tmpPng);
     if ndims(img) == 2
         img = cat(3, img, img, img);
