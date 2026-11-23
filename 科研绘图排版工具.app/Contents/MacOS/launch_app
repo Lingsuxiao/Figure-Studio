@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# 自动定位 Figure_tool 代码目录（支持直接把 .app 拖到桌面或程序坞使用）
+BUNDLE_PARENT="$(cd "$(dirname "$0")/../../.." && pwd)"
+if [ -f "$BUNDLE_PARENT/FigureLayoutApp.m" ]; then
+    APP_DIR="$BUNDLE_PARENT"
+else
+    APP_DIR="$HOME/Documents/Figure_tool"
+fi
+
+if [ ! -f "$APP_DIR/FigureLayoutApp.m" ]; then
+    osascript -e 'display dialog "找不到 FigureLayoutApp.m，请将本 App 放在项目目录中，或放到 ~/Documents/Figure_tool 目录下。" buttons {"确定"} with icon stop'
+    exit 1
+fi
+
+# 自动查找本机 MATLAB .app（优先匹配最新版本）
+MATLAB_APP="$(ls -d /Applications/MATLAB_*.app 2>/dev/null | sort -r | head -n 1)"
+
+if [ -z "$MATLAB_APP" ] || [ ! -d "$MATLAB_APP" ]; then
+    osascript -e 'display dialog "未在 /Applications 中找到已安装的 MATLAB。" buttons {"确定"} with icon stop'
+    exit 1
+fi
+
+# 使用 macOS 原生 open -n -a 独立托管启动 MATLAB，并用 waitfor 保持窗口存活直到用户关闭
+open -n -a "$MATLAB_APP" --args -nodesktop -r "try; addpath('$APP_DIR'); addpath('$APP_DIR/core'); app = FigureLayoutApp(true); waitfor(app.UIFigure); catch ME; disp(getReport(ME)); end; exit;"
+
+exit 0

@@ -1,0 +1,16 @@
+# macOS / Windows 系统垃圾文件
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+
+# MATLAB 临时与自动保存文件
+*.asv
+*.autosave
+*.m~
+*.mat
+*.log
+*.tmp
+
+# 自动化测试生成的本地临时输出（避免误提交个人实验数据）
+tests/output/
