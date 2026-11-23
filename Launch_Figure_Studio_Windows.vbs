@@ -30,9 +30,9 @@ matlabCmd = "try; addpath('" & safeDir & "'); addpath('" & safeDir & "\core'); "
             "app = FigureLayoutApp(true); waitfor(app.UIFigure); " & _
             "catch ME; disp(getReport(ME)); end; exit;"
 
-' Window style 0 = hidden (no black console window, no MATLAB Desktop)
-cmdLine = """" & matlabExe & """ -nodesktop -nosplash -r """ & matlabCmd & """"
-shell.Run cmdLine, 0, False
+' Use -minimize so the MATLAB Command Window stays minimized on Windows instead of popping up beside the App
+cmdLine = """" & matlabExe & """ -nodesktop -nosplash -minimize -r """ & matlabCmd & """"
+shell.Run cmdLine, 7, False
 
 WScript.Quit 0
 
